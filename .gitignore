@@ -8,3 +8,4 @@ applications/**/*.txt
 applications/**/*.info
 applications/**/*.json
 *.output
+build/

@@ -59,7 +59,7 @@ bool CGRAXMLCompile::PathFinderMapper::LeastCostPathAstar(LatPort start,
 
 	//	LOG(ROUTE) << "LeastCoastPath started with start=" << start->getFullName() << " to end=" << end->getFullName() << "\n";
 
-	std::unordered_map<LatPort, int, hash_LatPort> cost_to_port;
+	std::unordered_map<LatPort, long int, hash_LatPort> cost_to_port;
 	std::unordered_map<LatPort, LatPort, hash_LatPort> cameFrom;
 	std::unordered_map<LatPort, int, hash_LatPort> curr_hops_to_port;
 
@@ -322,7 +322,7 @@ bool CGRAXMLCompile::PathFinderMapper::LeastCostPathAstar(LatPort start,
 					LOG(ROUTE) << "\tnextPort=" << nextPort->getFullName() << ",";
 				if (detailedDebug)
 					LOG(ROUTE) << "latency = " << nextLatPort.first << ",";
-				int nextPortCost = cost_to_port[currPort] + calculateCost(currPort, nextLatPort, end);
+				long int nextPortCost = cost_to_port[currPort] + calculateCost(currPort, nextLatPort, end);
 			
 
 				if (nextPort->getNode() == node)
@@ -1626,6 +1626,7 @@ bool CGRAXMLCompile::PathFinderMapper::Map(CGRA *cgra, DFG *dfg)
 		//std::cout << "Map Success!.\n";
 		mappingLog.close();
 		mappingLog2.close();
+		mappingLog4.close();
 
 		LOG(MAPPING) << "Checking conflict compatibility!\n";
 		checkConflictedPortCompatibility();
@@ -1648,6 +1649,7 @@ bool CGRAXMLCompile::PathFinderMapper::Map(CGRA *cgra, DFG *dfg)
 		std::cout << "Map Failed!.\n";
 		mappingLog.close();
 		mappingLog2.close();
+		mappingLog4.close();
 		return false;
 	}
 }
