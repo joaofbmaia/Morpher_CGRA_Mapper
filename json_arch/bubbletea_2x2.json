@@ -1,0 +1,374 @@
+{"ARCH" :
+  {
+    "DP" : {
+        "INPUTS" : [
+            "I1","I2","P"
+          ]
+        ,
+        "INTERNALS" : [
+          "T_INT"
+        ]
+        ,
+        "OUTPUTS" : [
+            "T"
+          ]
+        ,
+        "CONNECTIONS" : {
+          "THIS.T_INT" : ["THIS.T"]
+        }
+    },
+  
+    "FU" : {
+        "INPUTS" : [
+            "DP0_I1","DP0_I2","DP0_P"
+          ]
+        ,
+        "OUTPUTS" : [
+            "DP0_T"
+          ]
+        ,
+        "SUBMODS" : {
+            "DP" : [{"name":"DP0"}]
+          }
+        ,
+        "OPS" : {
+          "NOP":0,
+          "ADD":0,
+          "SUB":0,
+          "MUL":0,
+          "LS":0,
+          "RS":0,
+          "ARS":0,
+          "AND":0,
+          "OR":0,
+          "XOR":0
+          }
+        ,
+        "CONNECTIONS" : {
+            "THIS.DP0_I1" : ["DP0.I1"],
+            "THIS.DP0_I2" : ["DP0.I2"],
+            "THIS.DP0_P" : ["DP0.P"],
+            "DP0.T" : ["THIS.DP0_T"]
+        }
+    },
+    
+    "FU_LOAD" : {
+      "INPUTS" : [
+          "DP0_I1","DP0_I2","DP0_P"
+        ]
+      ,
+      "OUTPUTS" : [
+          "DP0_T"
+        ]
+      ,
+      "SUBMODS" : {
+          "DP" : [{"name":"DP0"}]
+        }
+      ,
+      "OPS" : {
+        "NOP": 0,
+        "LOAD": 0
+      }
+      ,
+      "CONNECTIONS" : {
+          "THIS.DP0_I1" : ["DP0.I1"],
+          "THIS.DP0_I2" : ["DP0.I2"],
+          "THIS.DP0_P" : ["DP0.P"],
+          "DP0.T" : ["THIS.DP0_T"]
+      }    
+    },
+
+    "FU_STORE" : {
+      "INPUTS" : [
+          "DP0_I1","DP0_I2","DP0_P"
+        ]
+      ,
+      "OUTPUTS" : [
+          "DP0_T"
+        ]
+      ,
+      "SUBMODS" : {
+          "DP" : [{"name":"DP0"}]
+        }
+      ,
+      "OPS" : {
+        "NOP": 0,
+        "STORE": 0
+      }
+      ,
+      "CONNECTIONS" : {
+          "THIS.DP0_I1" : ["DP0.I1"],
+          "THIS.DP0_I2" : ["DP0.I2"],
+          "THIS.DP0_P" : ["DP0.P"],
+          "DP0.T" : ["THIS.DP0_T"]
+      }
+    },
+
+    "FU_NOP" : {
+      "INPUTS" : [
+          "DP0_I1","DP0_I2","DP0_P"
+        ]
+      ,
+      "OUTPUTS" : [
+          "DP0_T"
+        ]
+      ,
+      "SUBMODS" : {
+          "DP" : [{"name":"DP0"}]
+        }
+      ,
+      "OPS" : {
+        "NOP": 0
+      }
+      ,
+      "CONNECTIONS" : {
+          "THIS.DP0_I1" : ["DP0.I1"],
+          "THIS.DP0_I2" : ["DP0.I2"],
+          "THIS.DP0_P" : ["DP0.P"],
+          "DP0.T" : ["THIS.DP0_T"]
+      }
+    },
+    
+    "RF" : {
+        "INPUTS" : [
+            "WP0","WP1"
+          ]
+        ,
+        "OUTPUTS" : [
+            "RP0","RP1"
+          ]
+        ,
+        "REGS" : [
+            "R0","R1"
+          ]
+        ,
+        "CONNECTIONS" : {
+            "THIS.WP0" : ["THIS.R0","THIS.R1"],
+            "THIS.WP1" : ["THIS.R0","THIS.R1"],
+            "THIS.R0" :  ["THIS.RP0","THIS.RP1"],
+            "THIS.R1" :  ["THIS.RP0","THIS.RP1"]
+          }
+    },
+
+    "RF_OUT" : {
+      "INPUTS" : [
+          "WP0"
+        ]
+      ,
+      "OUTPUTS" : [
+          "RP0"
+        ]
+      ,
+      "REGS" : [
+          "R0"
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.WP0" : ["THIS.R0"],
+          "THIS.R0" :  ["THIS.RP0"]
+        }
+    },
+    
+    "PE_SE_NORTH" : {
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+        "FU_LOAD":[{"name":"LU0"}],
+        "FU_STORE":[{"name":"SU0"}]
+      }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.SOUTH_I" : ["SU0.DP0_I1","SU0.DP0_I2","SU0.DP0_P"],
+          "LU0.DP0_T" : ["THIS.SOUTH_O"]
+        }
+      
+    },
+
+    "PE_SE_SOUTH" : {
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+        "FU_LOAD":[{"name":"LU0"}],
+        "FU_STORE":[{"name":"SU0"}]
+      }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.NORTH_I" : ["SU0.DP0_I1","SU0.DP0_I2","SU0.DP0_P"],
+          "LU0.DP0_T" : ["THIS.NORTH_O"]
+        }
+      
+    },
+
+    "PE_SE_WEST" : {
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+        "FU_LOAD":[{"name":"LU0"}],
+        "FU_STORE":[{"name":"SU0"}]
+      }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.EAST_I" : ["SU0.DP0_I1","SU0.DP0_I2","SU0.DP0_P"],
+          "LU0.DP0_T" : ["THIS.EAST_O"]
+        }
+      
+    },
+
+    "PE_SE_EAST" : {
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+        "FU_LOAD":[{"name":"LU0"}],
+        "FU_STORE":[{"name":"SU0"}]
+      }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.WEST_I" : ["SU0.DP0_I1","SU0.DP0_I2","SU0.DP0_P"],
+          "LU0.DP0_T" : ["THIS.WEST_O"]
+        }
+      
+    },
+    
+    "PE":{
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+          "FU":[{"name":"FU0"}],
+          "RF":[{"name":"RF0"}],
+          "RF_OUT":[
+            {"name":"R_NORTH"},
+            {"name":"R_WEST"},
+            {"name":"R_EAST"},
+            {"name":"R_SOUTH"}
+          ]
+        }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+          "THIS.NORTH_I" : ["RF0.WP0","RF0.WP1","FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],	
+          "THIS.EAST_I" : ["RF0.WP0","RF0.WP1","FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "THIS.WEST_I" : ["RF0.WP0","RF0.WP1","FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "THIS.SOUTH_I" : ["RF0.WP0","RF0.WP1","FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "RF0.RP0" : ["FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "RF0.RP1" : ["FU0.DP0_I1","FU0.DP0_I2","FU0.DP0_P","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "FU0.DP0_T" : ["RF0.WP0","RF0.WP1","R_NORTH.WP0","R_WEST.WP0","R_EAST.WP0","R_SOUTH.WP0"],
+          "R_NORTH.RP0" : ["THIS.NORTH_O"],
+          "R_WEST.RP0" : ["THIS.WEST_O"],
+          "R_EAST.RP0" : ["THIS.EAST_O"],
+          "R_SOUTH.RP0" : ["THIS.SOUTH_O"]
+        }
+    },
+
+    "PE_NOP":{
+      "INPUTS" : [
+        "NORTH_I","WEST_I","EAST_I","SOUTH_I"
+        ]
+      ,
+      "OUTPUTS" : [
+        "NORTH_O","WEST_O","EAST_O","SOUTH_O"
+        ]
+      ,
+      "INTERNAL" : [
+        ]
+      ,
+      "SUBMODS" : {
+
+        }
+      ,
+      "REGS" : [
+          
+        ]
+      ,
+      "CONNECTIONS" : {
+
+        }
+    },
+    
+    "CGRA" :{
+      "SUBMODS" :[
+          { "PATTERN" : "GRID",
+            "DIMS" : {"X" : 4,"Y" : 4},
+            "MODS" : [
+              {"X":0,"Y":0,"MOD":"PE_NOP"}, {"X":1,"Y":0,"MOD":"PE_SE_NORTH"},  {"X":2,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":3,"Y":0,"MOD":"PE_NOP"},
+              {"X":0,"Y":1,"MOD":"PE_SE_WEST"}, {"X":1,"Y":1,"MOD":"PE"},  {"X":2,"Y":1,"MOD":"PE"}, {"X":3,"Y":1,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":2,"MOD":"PE_SE_WEST"}, {"X":1,"Y":2,"MOD":"PE"},  {"X":2,"Y":2,"MOD":"PE"}, {"X":3,"Y":2,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":3,"MOD":"PE_NOP"}, {"X":1,"Y":3,"MOD":"PE_SE_SOUTH"},  {"X":2,"Y":3,"MOD":"PE_SE_SOUTH"}, {"X":3,"Y":3,"MOD":"PE_NOP"}
+            ],
+            "CONNECTIONS" : [
+              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "NORTH_O", "TO_X" : "X", "TO_Y" : "Y-1", "TO_PORT" : "SOUTH_I"},
+              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "EAST_O",  "TO_X" : "X+1", "TO_Y" : "Y", "TO_PORT" : "WEST_I"},
+              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "WEST_O",  "TO_X" : "X-1", "TO_Y" : "Y", "TO_PORT" : "EAST_I"},
+              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "SOUTH_O", "TO_X" : "X", "TO_Y" : "Y+1", "TO_PORT" : "NORTH_I"}
+            ]
+          }
+      ]
+    }
+
+    
+  }
+}
+
