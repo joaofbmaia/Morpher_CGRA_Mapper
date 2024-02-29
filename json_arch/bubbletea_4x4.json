@@ -328,12 +328,14 @@
     "CGRA" :{
       "SUBMODS" :[
           { "PATTERN" : "GRID",
-            "DIMS" : {"X" : 4,"Y" : 4},
+            "DIMS" : {"X" : 6,"Y" : 6},
             "MODS" : [
-              {"X":0,"Y":0,"MOD":"PE_NOP"}, {"X":1,"Y":0,"MOD":"PE_SE_NORTH"},  {"X":2,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":3,"Y":0,"MOD":"PE_NOP"},
-              {"X":0,"Y":1,"MOD":"PE_SE_WEST"}, {"X":1,"Y":1,"MOD":"PE"},  {"X":2,"Y":1,"MOD":"PE"}, {"X":3,"Y":1,"MOD":"PE_SE_EAST"},
-              {"X":0,"Y":2,"MOD":"PE_SE_WEST"}, {"X":1,"Y":2,"MOD":"PE"},  {"X":2,"Y":2,"MOD":"PE"}, {"X":3,"Y":2,"MOD":"PE_SE_EAST"},
-              {"X":0,"Y":3,"MOD":"PE_NOP"}, {"X":1,"Y":3,"MOD":"PE_SE_SOUTH"},  {"X":2,"Y":3,"MOD":"PE_SE_SOUTH"}, {"X":3,"Y":3,"MOD":"PE_NOP"}
+              {"X":0,"Y":0,"MOD":"PE_NOP"}, {"X":1,"Y":0,"MOD":"PE_SE_NORTH"},  {"X":2,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":3,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":4,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":5,"Y":0,"MOD":"PE_NOP"},
+              {"X":0,"Y":1,"MOD":"PE_SE_WEST"}, {"X":1,"Y":1,"MOD":"PE"},  {"X":2,"Y":1,"MOD":"PE"}, {"X":3,"Y":1,"MOD":"PE"}, {"X":4,"Y":1,"MOD":"PE"}, {"X":5,"Y":1,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":2,"MOD":"PE_SE_WEST"}, {"X":1,"Y":2,"MOD":"PE"},  {"X":2,"Y":2,"MOD":"PE"}, {"X":3,"Y":2,"MOD":"PE"}, {"X":4,"Y":2,"MOD":"PE"}, {"X":5,"Y":2,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":3,"MOD":"PE_SE_WEST"}, {"X":1,"Y":3,"MOD":"PE"},  {"X":2,"Y":3,"MOD":"PE"}, {"X":3,"Y":3,"MOD":"PE"}, {"X":4,"Y":3,"MOD":"PE"}, {"X":5,"Y":3,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":4,"MOD":"PE_SE_WEST"}, {"X":1,"Y":4,"MOD":"PE"},  {"X":2,"Y":4,"MOD":"PE"}, {"X":3,"Y":4,"MOD":"PE"}, {"X":4,"Y":4,"MOD":"PE"}, {"X":5,"Y":4,"MOD":"PE_SE_EAST"},
+              {"X":0,"Y":5,"MOD":"PE_NOP"}, {"X":1,"Y":5,"MOD":"PE_SE_SOUTH"},  {"X":2,"Y":5,"MOD":"PE_SE_SOUTH"}, {"X":3,"Y":5,"MOD":"PE_SE_SOUTH"}, {"X":4,"Y":5,"MOD":"PE_SE_SOUTH"}, {"X":5,"Y":5,"MOD":"PE_NOP"}
             ],
             "CONNECTIONS" : [
               {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "NORTH_O", "TO_X" : "X", "TO_Y" : "Y-1", "TO_PORT" : "SOUTH_I"},
