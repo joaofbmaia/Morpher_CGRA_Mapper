@@ -265,6 +265,8 @@ public:
 
 	void printMappingLog();
 	void printMappingLog2();
+	void printFinalMapping(string fileName);
+	void printFinalMappingLog2(string fileName);
 
 	std::string dumpMappingToStr();
 	std::string dumpCGRAMappingStat();

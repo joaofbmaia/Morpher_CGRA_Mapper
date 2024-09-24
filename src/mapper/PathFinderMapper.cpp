@@ -1623,6 +1623,9 @@ bool CGRAXMLCompile::PathFinderMapper::Map(CGRA *cgra, DFG *dfg)
 		// cgra->PrintMappedJSON(fNameLog1 + cgra->getCGRAName() + "mapping.json");
 		cgra->PrintMappingForPillars(fNameLog1 + cgra->getCGRAName() + "mapping_pillars_i.txt", fNameLog1 + cgra->getCGRAName() + "mapping_pillars_r.txt");
 
+		printFinalMapping("mapping.csv");
+		printFinalMappingLog2("routeInfo.log"); 
+
 		//std::cout << "Map Success!.\n";
 		mappingLog.close();
 		mappingLog2.close();

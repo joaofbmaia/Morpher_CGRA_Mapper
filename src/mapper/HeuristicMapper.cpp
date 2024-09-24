@@ -21,6 +21,8 @@
 #include <sstream>
 #include <utility>
 
+using json = nlohmann::json;
+
 namespace CGRAXMLCompile
 {
 
@@ -1570,6 +1572,260 @@ void CGRAXMLCompile::HeuristicMapper::printMappingLog()
 	mappingLog << "************************************\n";
 }
 
+void CGRAXMLCompile::HeuristicMapper::printFinalMapping(string fileName)
+{
+	std::ofstream finalMappingFilestream;
+	finalMappingFilestream.open(fileName.c_str());
+	assert(finalMappingFilestream.is_open());
+
+	struct util
+	{
+		void static repeatedPush(std::stringstream &ss, std::string pushStr, int count)
+		{
+			for (int i = 0; i < count; ++i)
+			{
+				ss << pushStr;
+			}
+		}
+	};
+
+	vector<string> lineHeaders;
+
+	vector<PE *> zeroth_spatialPEs = cgra->getSpatialPEList(0);
+	std::stringstream peHeader;
+	std::stringstream fuHeader;
+	std::stringstream dpHeader;
+	for (PE *pe : zeroth_spatialPEs)
+	{
+		peHeader << pe->getName();
+
+		int fuCount = 0;
+		int dpCount = 0;
+		for (Module *mod : pe->subModules)
+		{
+			if (FU *fu = dynamic_cast<FU *>(mod))
+			{
+				fuCount++;
+				for (Module *mod : fu->subModules)
+				{
+					if (DataPath *dp = dynamic_cast<DataPath *>(mod))
+					{
+						dpCount++;
+					}
+				}
+			}
+		}
+
+		int inputPortCount = pe->inputPorts.size();
+		int outputPortCount = pe->outputPorts.size();
+		int regConPortCount = pe->getRegConPorts().size()*2;
+		int totalColumns = dpCount + inputPortCount + outputPortCount + regConPortCount;
+
+		for (Module *mod : pe->subModules)
+		{
+			if (FU *fu = dynamic_cast<FU *>(mod))
+			{
+				fuHeader << fu->getName() << ",";
+				for (Module *mod : fu->subModules)
+				{
+					if (DataPath *dp = dynamic_cast<DataPath *>(mod))
+					{
+						dpHeader << dp->getName() << ",";
+					}
+				}
+			}
+		}
+
+		for (Port *ip : pe->inputPorts)
+		{
+			dpHeader << ip->getName() << ",";
+		}
+
+		for (Port *op : pe->outputPorts)
+		{
+			dpHeader << op->getName() << ",";
+		}
+
+		for (pair<Port*,Port*> pp : pe->getRegConPorts())
+		{
+			Port* ri = pp.first;
+			Port* ro = pp.second;
+
+			dpHeader << ri->getName() << ",";
+			dpHeader << ro->getName() << ",";
+		}
+
+		util::repeatedPush(peHeader, ",", totalColumns);
+		util::repeatedPush(fuHeader, ",", totalColumns - fuCount);
+	}
+
+	finalMappingFilestream << "," << peHeader.str() << "\n";
+	finalMappingFilestream << "," << fuHeader.str() << "\n";
+	finalMappingFilestream << "," << dpHeader.str() << "\n";
+
+	std::map<int, std::vector<std::vector<std::string>>> lineMatrix;
+
+	for (int t = 0; t < cgra->get_t_max(); ++t)
+	{
+
+		//				peHeader << "PE_" << t << y << x  << ",";
+		// peHeader << "X=" << x << ",";
+		vector<PE *> spatialPEs = cgra->getSpatialPEList(t);
+		for (PE *pe : spatialPEs)
+		{
+			// PE *pe = cgra->PEArr[t][y][x];
+
+			std::stringstream peHeader;
+			std::stringstream fuHeader;
+			std::stringstream dpHeader;
+			std::stringstream dpOp;
+
+			peHeader << "T=" << t << "," << pe->getName();
+
+			int fuCount = 0;
+			int dpCount = 0;
+			for (Module *mod : pe->subModules)
+			{
+				if (FU *fu = dynamic_cast<FU *>(mod))
+				{
+					fuCount++;
+					for (Module *mod : fu->subModules)
+					{
+						if (DataPath *dp = dynamic_cast<DataPath *>(mod))
+						{
+							dpCount++;
+						}
+					}
+				}
+			}
+
+			int inputPortCount = pe->inputPorts.size();
+			int outputPortCount = pe->outputPorts.size();
+			int regConPortCount = pe->getRegConPorts().size()*2;
+			int totalColumns = dpCount + inputPortCount + outputPortCount + regConPortCount;
+
+			for (Module *mod : pe->subModules)
+			{
+				if (FU *fu = dynamic_cast<FU *>(mod))
+				{
+					fuHeader << fu->getName() << ",";
+					for (Module *mod : fu->subModules)
+					{
+						if (DataPath *dp = dynamic_cast<DataPath *>(mod))
+						{
+							dpHeader << dp->getName() << ",";
+							if (dp->getMappedNode())
+							{
+								dpOp << dp->getMappedNode()->idx << ":" << dp->getMappedNode()->op;
+								if (dp->getMappedNode()->hasConst)
+								{
+									dpOp << "+C";
+								}
+								dpOp << "(";
+								for (DFGNode *parent : dp->getMappedNode()->parents)
+								{
+									dpOp << parent->idx << "-";
+								}
+								dpOp << "|";
+								for (DFGNode *child : dp->getMappedNode()->children)
+								{
+									dpOp << child->idx << "-";
+								}
+								dpOp << ")";
+								dpOp << ",";
+							}
+							else
+							{
+								dpOp << "---,";
+							}
+						}
+					}
+				}
+			}
+
+			for (Port *ip : pe->inputPorts)
+			{
+				dpHeader << ip->getName() << ",";
+				if (ip->getNode())
+				{
+					dpOp << ip->getNode()->idx /*<< ":" << ip.getNode()->op */ << ",";
+				}
+				else
+				{
+					dpOp << "---,";
+				}
+			}
+
+			for (Port *op : pe->outputPorts)
+			{
+				dpHeader << op->getName() << ",";
+				if (op->getNode())
+				{
+					dpOp << op->getNode()->idx /*<< ":" << op.getNode()->op */ << ",";
+				}
+				else
+				{
+					dpOp << "---,";
+				}
+			}
+
+			for (pair<Port*,Port*> pp : pe->getRegConPorts())
+			{
+				Port* ri = pp.first;
+				Port* ro = pp.second;
+
+				dpHeader << ri->getName() << ",";
+				if (ri->getNode())
+				{
+					dpOp << ri->getNode()->idx /*<< ":" << op.getNode()->op */ << ",";
+				}
+				else
+				{
+					dpOp << "---,";
+				}
+
+				dpHeader << ro->getName() << ",";
+				if (ro->getNode())
+				{
+					dpOp << ro->getNode()->idx /*<< ":" << op.getNode()->op */ << ",";
+				}
+				else
+				{
+					dpOp << "---,";
+				}
+
+			}
+
+			std::vector<string> lineWord;
+			// lineWord.push_back(peHeader.str());
+			// lineWord.push_back(fuHeader.str());
+			// lineWord.push_back(dpHeader.str());
+			lineWord.push_back(dpOp.str());
+
+			lineMatrix[t].push_back(lineWord);
+		}
+	}
+
+	int lineCount = 1;
+
+	//print line matrix
+	for (int t = 0; t < cgra->get_t_max(); ++t)
+	{
+		finalMappingFilestream << "T=" << t << ",";
+		for (vector<string> linewords : lineMatrix[t])
+		{
+			for (int l = 0; l < lineCount; ++l)
+			{
+				finalMappingFilestream << linewords[l];
+			}
+			// finalMappingFilestream << "\n";
+		}
+		finalMappingFilestream << "\n";
+	}
+
+	finalMappingFilestream.close();
+}
+
 bool CGRAXMLCompile::HeuristicMapper::LeastCostPathDjk(Port *start, Port *end,
 													   std::vector<Port *> &path, int &cost, DFGNode *node,
 													   std::map<Port *, std::set<DFGNode *>> &mutexPaths)
@@ -1836,6 +2092,39 @@ void CGRAXMLCompile::HeuristicMapper::printMappingLog2()
 		}
 	}
 	mappingLog2 << "--------------------------------------------------------\n";
+}
+
+void CGRAXMLCompile::HeuristicMapper::printFinalMappingLog2(string fileName)
+{
+	std::ofstream finalMappingLog2Filestream;
+	finalMappingLog2Filestream.open(fileName.c_str());
+	assert(finalMappingLog2Filestream.is_open());
+
+	for (DFGNode &node : dfg->nodeList)
+	{
+		if (node.rootDP != NULL)
+		{
+			finalMappingLog2Filestream << "node=" << node.idx << ",mapped=" << node.rootDP->getPE()->getName() << "\n";
+			for (DFGNode *parent : node.parents)
+			{
+				if (parent->rootDP != NULL)
+				{
+					finalMappingLog2Filestream << "\t"
+								<< "parent:" << parent->idx << "\n";
+					for (std::pair<Port *, int> pair : parent->routingPorts)
+					{
+						Port *p = pair.first;
+						if (pair.second == node.idx)
+						{
+							finalMappingLog2Filestream << "\t\t" << p->getFullName() << "\n";
+						}
+					}
+				}
+			}
+		}
+	}
+
+	finalMappingLog2Filestream.close();
 }
 
 bool CGRAXMLCompile::HeuristicMapper::sanityCheck()

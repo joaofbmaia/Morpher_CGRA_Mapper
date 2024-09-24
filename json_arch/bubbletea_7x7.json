@@ -327,23 +327,28 @@
     
     "CGRA" :{
       "SUBMODS" :[
-          { "PATTERN" : "GRID",
-            "DIMS" : {"X" : 4,"Y" : 4},
-            "MODS" : [
-              {"X":0,"Y":0,"MOD":"PE_NOP"}, {"X":1,"Y":0,"MOD":"PE_SE_NORTH"},  {"X":2,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":3,"Y":0,"MOD":"PE_NOP"},
-              {"X":0,"Y":1,"MOD":"PE_SE_WEST"}, {"X":1,"Y":1,"MOD":"PE"},  {"X":2,"Y":1,"MOD":"PE"}, {"X":3,"Y":1,"MOD":"PE_SE_EAST"},
-              {"X":0,"Y":2,"MOD":"PE_SE_WEST"}, {"X":1,"Y":2,"MOD":"PE"},  {"X":2,"Y":2,"MOD":"PE"}, {"X":3,"Y":2,"MOD":"PE_SE_EAST"},
-              {"X":0,"Y":3,"MOD":"PE_NOP"}, {"X":1,"Y":3,"MOD":"PE_SE_SOUTH"},  {"X":2,"Y":3,"MOD":"PE_SE_SOUTH"}, {"X":3,"Y":3,"MOD":"PE_NOP"}
-            ],
-            "CONNECTIONS" : [
-              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "NORTH_O", "TO_X" : "X", "TO_Y" : "Y-1", "TO_PORT" : "SOUTH_I"},
-              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "EAST_O",  "TO_X" : "X+1", "TO_Y" : "Y", "TO_PORT" : "WEST_I"},
-              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "WEST_O",  "TO_X" : "X-1", "TO_Y" : "Y", "TO_PORT" : "EAST_I"},
-              {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "SOUTH_O", "TO_X" : "X", "TO_Y" : "Y+1", "TO_PORT" : "NORTH_I"}
-            ]
-          }
+        { "PATTERN" : "GRID",
+          "DIMS" : {"X" : 9,"Y" : 9},
+          "MODS" : [
+            {"X":0,"Y":0,"MOD":"PE_NOP"}, {"X":1,"Y":0,"MOD":"PE_SE_NORTH"},  {"X":2,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":3,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":4,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":5,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":6,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":7,"Y":0,"MOD":"PE_SE_NORTH"}, {"X":8,"Y":0,"MOD":"PE_NOP"},
+            {"X":0,"Y":1,"MOD":"PE_SE_WEST"}, {"X":1,"Y":1,"MOD":"PE"},  {"X":2,"Y":1,"MOD":"PE"}, {"X":3,"Y":1,"MOD":"PE"}, {"X":4,"Y":1,"MOD":"PE"}, {"X":5,"Y":1,"MOD":"PE"}, {"X":6,"Y":1,"MOD":"PE"}, {"X":7,"Y":1,"MOD":"PE"}, {"X":8,"Y":1,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":2,"MOD":"PE_SE_WEST"}, {"X":1,"Y":2,"MOD":"PE"},  {"X":2,"Y":2,"MOD":"PE"}, {"X":3,"Y":2,"MOD":"PE"}, {"X":4,"Y":2,"MOD":"PE"}, {"X":5,"Y":2,"MOD":"PE"}, {"X":6,"Y":2,"MOD":"PE"}, {"X":7,"Y":2,"MOD":"PE"}, {"X":8,"Y":2,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":3,"MOD":"PE_SE_WEST"}, {"X":1,"Y":3,"MOD":"PE"},  {"X":2,"Y":3,"MOD":"PE"}, {"X":3,"Y":3,"MOD":"PE"}, {"X":4,"Y":3,"MOD":"PE"}, {"X":5,"Y":3,"MOD":"PE"}, {"X":6,"Y":3,"MOD":"PE"}, {"X":7,"Y":3,"MOD":"PE"}, {"X":8,"Y":3,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":4,"MOD":"PE_SE_WEST"}, {"X":1,"Y":4,"MOD":"PE"},  {"X":2,"Y":4,"MOD":"PE"}, {"X":3,"Y":4,"MOD":"PE"}, {"X":4,"Y":4,"MOD":"PE"}, {"X":5,"Y":4,"MOD":"PE"}, {"X":6,"Y":4,"MOD":"PE"}, {"X":7,"Y":4,"MOD":"PE"}, {"X":8,"Y":4,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":5,"MOD":"PE_SE_WEST"}, {"X":1,"Y":5,"MOD":"PE"},  {"X":2,"Y":5,"MOD":"PE"}, {"X":3,"Y":5,"MOD":"PE"}, {"X":4,"Y":5,"MOD":"PE"}, {"X":5,"Y":5,"MOD":"PE"}, {"X":6,"Y":5,"MOD":"PE"}, {"X":7,"Y":5,"MOD":"PE"}, {"X":8,"Y":5,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":6,"MOD":"PE_SE_WEST"}, {"X":1,"Y":6,"MOD":"PE"},  {"X":2,"Y":6,"MOD":"PE"}, {"X":3,"Y":6,"MOD":"PE"}, {"X":4,"Y":6,"MOD":"PE"}, {"X":5,"Y":6,"MOD":"PE"}, {"X":6,"Y":6,"MOD":"PE"}, {"X":7,"Y":6,"MOD":"PE"}, {"X":8,"Y":6,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":7,"MOD":"PE_SE_WEST"}, {"X":1,"Y":7,"MOD":"PE"},  {"X":2,"Y":7,"MOD":"PE"}, {"X":3,"Y":7,"MOD":"PE"}, {"X":4,"Y":7,"MOD":"PE"}, {"X":5,"Y":7,"MOD":"PE"}, {"X":6,"Y":7,"MOD":"PE"}, {"X":7,"Y":7,"MOD":"PE"}, {"X":8,"Y":7,"MOD":"PE_SE_EAST"},
+            {"X":0,"Y":8,"MOD":"PE_NOP"}, {"X":1,"Y":8,"MOD":"PE_SE_SOUTH"},  {"X":2,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":3,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":4,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":5,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":6,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":7,"Y":8,"MOD":"PE_SE_SOUTH"}, {"X":8,"Y":8,"MOD":"PE_NOP"}
+          ],
+          "CONNECTIONS" : [
+            {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "NORTH_O", "TO_X" : "X", "TO_Y" : "Y-1", "TO_PORT" : "SOUTH_I"},
+            {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "EAST_O",  "TO_X" : "X+1", "TO_Y" : "Y", "TO_PORT" : "WEST_I"},
+            {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "WEST_O",  "TO_X" : "X-1", "TO_Y" : "Y", "TO_PORT" : "EAST_I"},
+            {"FROM_X" : "X", "FROM_Y" : "Y", "FROM_PORT" : "SOUTH_O", "TO_X" : "X", "TO_Y" : "Y+1", "TO_PORT" : "NORTH_I"}
+          ]
+        }
       ]
-    }
+    }      
 
     
   }
